@@ -15,23 +15,20 @@ int obtenerValor(Numero** arreglo, int pos)
 {
     return  arreglo[pos]->valor;
 }
-
 //Devuelve true si y solo si todas las letras de las cadenas de la lista son mayusculas
 bool sonMayusculas(list<string> palabras)
 {
-list<string>::iterator it = palabras.begin();
+list <string>:: iterator it = palabras.begin();
     while(it != palabras.end()){
         string pal = *it;
-        for (int i = 0; i <pal.length() ; ++i) {
-            if (pal[i]>='A' && pal[i] <= 'Z'){
+        for(int i = 0 ; i < pal.length() ; i++){
+            if(pal[i]>= 'A' && pal[i]<='Z'){
                 continue;
-            }
-            else{
+            }else{
                 return false;
             }
         }
-
-        it++;
+        it ++;
     }
     return true;
 }
@@ -40,17 +37,50 @@ list<string>::iterator it = palabras.begin();
 vector<int> eliminarRepetidos(vector<int> vector_a)
 {
     vector<int> respuesta;
+    for(int i=0; i<vector_a.size();i++){
+        if(i==0)
+            respuesta.push_back(vector_a[i]);
+        else{
+            int cont=0;
+            for(int x=0;x<respuesta.size();x++){
+                if(vector_a[i]==respuesta[x])
+                    cont++;
+
+            }
+            if(cont>=1)
+                continue;
+            else
+                respuesta.push_back(vector_a[i]);
+        }
+    }
     return respuesta;
 }
 
 //Guarda el contenido del objeto Pais que viene como parametro
-void guardar(string nombre_archivo, Pais* pais) {
-}
+void guardar(string nombre_archivo, Pais* pais)
+{
+    ofstream mi_archivo(nombre_archivo);
+    mi_archivo<<pais->nombre<<endl;
+    mi_archivo<<pais->capital<<endl;
+    mi_archivo<<pais->habitantes<<endl;
+    mi_archivo<<pais->superficie<<endl;
+    mi_archivo.close();}
 
 //Devuelve un objeto Pais que contenga la informacion que se guardo anteriormente por la funcion guardar()
 Pais* abrir(string nombre_archivo)
 {
-    return NULL;
+    ifstream mi_archivo(nombre_archivo);
+    string nom, cap;
+    int super, habis;
+
+    while(mi_archivo>>nom){
+        mi_archivo>>cap;
+        mi_archivo>>habis;
+        mi_archivo>>super;
+    }
+    mi_archivo.close();
+    Pais* pais= new Pais(nom,cap,habis,super);
+    return pais;
 }
 
 //Devuelve el mayor entre a, b y c
@@ -95,7 +125,7 @@ public:
         return nombre;
     }
 };
-class Atacante : public JugadorDeFutbol{
+class Atacante:public JugadorDeFutbol{
 public:
     int anotaciones;
     Atacante(string nombre,int anotaciones){
@@ -129,6 +159,9 @@ public:
         this->atajadas+=atajadas;
     }
 };
+
+
+
 
 ///////////////////////////////////////////////////////////////////
 ////////////////////////////// Main ///////////////////////////////
@@ -165,7 +198,7 @@ void evaluar()
     if(obtenerMayor(10,30,20)==30
        && obtenerMayor('x','m','a')=='x'
        && obtenerMayor(25.6,53.2,100.2)==100.2
-            )
+        )
     {
         nota+=4;
         cout<<"Correcto"<<endl;
